@@ -1,0 +1,12 @@
+# Archivo robots.txt para ER Trenchless Chile
+# Permite a todos los rastreadores indexar todo el contenido público
+
+User-agent: *
+Allow: /
+
+# Evita que los buscadores indexen carpetas internas de diseño que no aportan al SEO
+Disallow: /css/
+Disallow: /js/
+
+# Le indica a Google dónde encontrar tu mapa del sitio
+Sitemap: https://ertchile.com/sitemap.xml

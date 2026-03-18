@@ -1,0 +1,535 @@
+/* =========================================
+   1. VARIABLES Y CONFIGURACIÓN BASE
+   ========================================= */
+
+/* Importación de fuentes oficiales (Montserrat y Open Sans) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --color-primario: #8c1c1f;   /* Rojo Oscuro ERT (Extraído del fondo del logo) */
+    --color-secundario: #222222; /* Gris casi negro (Extraído de la letra R) */
+    --color-oscuro: #111111;
+    --color-blanco: #ffffff;
+    --color-gris-fondo: #f4f7f9;
+    
+    --fuente-titulos: 'Montserrat', sans-serif;
+    --fuente-cuerpo: 'Open Sans', sans-serif;
+    
+    --sombra: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --transicion: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--fuente-cuerpo);
+    background-color: var(--color-blanco);
+    display: flex;
+    flex-direction: column;
+    color: var(--color-oscuro);
+    line-height: 1.6;
+}
+
+/* Encabezados con Montserrat */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--fuente-titulos);
+    font-weight: 700;
+    color: var(--color-primario);
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* =========================================
+   2. HEADER Y NAVEGACIÓN
+   ========================================= */
+header {
+    background: #111111;
+    /* Bajamos el padding de 15px a 5px para ganar espacio interno */
+    padding: 5px 0; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 2px solid var(--color-primario);
+}
+
+
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    /* Aumentamos la altura de 80px a 100px */
+    height: 120px; 
+    display: block;
+    /* Añadimos una transición suave por si quieres que cambie al hacer scroll */
+    transition: var(--transicion); 
+    /* Asegura que el logo no se deforme */
+    width: 150px; 
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color:  #ffffff;
+    font-family: var(--fuente-titulos);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transicion);
+}
+
+nav ul li a:hover, nav ul li a.active {
+    color: var(--color-primario);
+}
+
+.nav-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* =========================================
+   3. HERO SECTIONS (BANNERS)
+   ========================================= */
+.hero, .secondary-hero {
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero { background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/hero-bg.jpg'); }
+.secondary-hero { background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/nosotros-bg.jpg'); }
+
+.hero h1, .secondary-hero h1 { 
+    font-size: 3rem; 
+    margin-bottom: 20px; 
+    color: var(--color-blanco);
+}
+
+
+.hero p, .secondary-hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* =========================================
+   4. DISEÑO DE GRIDS Y SECCIONES
+   ========================================= */
+.section-padding { padding: 60px 0; }
+
+h2 {
+    text-align: center;
+    color: var(--color-primario);
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.bg-light { background-color: var(--color-gris-fondo); }
+
+/* =========================================
+   GRID PARA SERVICIOS (4 items -> 2x2)
+   ========================================= */
+.servicios-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Fuerza 2 columnas */
+    gap: 40px;
+    max-width: 900px; /* Ajusta el ancho para que las 2 tarjetas no se vean tan estiradas */
+    margin: 0 auto; /* Centra la grilla en la página */
+}
+
+/* =========================================
+   GRID PARA PRODUCTOS (3 items -> 1 fila de 3)
+   ========================================= */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Automático, perfecto para 3 items */
+    gap: 30px;
+}
+
+/* --- Responsivo para ambas grillas --- */
+@media (max-width: 768px) {
+    .servicios-grid, .productos-grid {
+        grid-template-columns: 1fr; /* En celulares, todo pasa a 1 sola columna */
+    }
+}
+
+/* Grid de Contenido (Página Nosotros) */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajustado para mejor respuesta */
+    gap: 40px;
+    align-items: center;
+}
+
+/* Alineación específica para texto en Nosotros */
+.text-content h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.text-content p {
+    text-align: left;
+}
+
+/* =========================================
+   5. TARJETAS Y BOTONES (CORREGIDOS)
+   ========================================= */
+.service-card {
+    background: var(--color-blanco);
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+    border-bottom: 4px solid var(--color-secundario);
+    transition: var(--transicion);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+}
+
+.service-image-top {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+}
+
+.service-image-top img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.service-info {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empuja el botón al final */
+}
+
+/* Botón "SABER MÁS" (Estilo Imagen 2 corregido) */
+.btn-modern {
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-primario) !important; /* Mantiene azul aunque sea visitado */
+    font-family: var(--fuente-titulos);
+    font-weight: 700;
+    text-transform: uppercase; /* Fuerza Mayúsculas */
+    font-size: 0.85rem;
+    gap: 8px;
+    text-decoration: none;
+    transition: var(--transicion);
+}
+
+.btn-modern:hover {
+    color: var(--color-secundario) !important;
+}
+
+.btn-modern .arrow {
+    transition: transform 0.3s ease;
+}
+
+.btn-modern:hover .arrow {
+    transform: translateX(5px);
+}
+
+.cta-button {
+    background: var(--color-primario);
+    color: white;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: var(--fuente-titulos);
+    font-weight: bold;
+    display: inline-block;
+    transition: var(--transicion);
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cta-button:hover {
+    background: var(--color-secundario);
+    cursor: pointer;
+}
+
+/* =========================================
+   6. FOOTER (4 COLUMNAS Y REDES SOCIALES)
+   ========================================= */
+footer {
+    background: var(--color-oscuro);
+    color: #cccccc;
+    padding: 60px 0 0;
+    flex-shrink: 0;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 Columnas simétricas */
+    gap: 30px;
+    padding-bottom: 40px;
+}
+
+.footer-section h4 {
+    color: var(--color-blanco);
+    margin-bottom: 20px;
+    border-left: 3px solid var(--color-secundario);
+    padding-left: 10px;
+}
+
+.footer-section p i {
+    margin-right: 10px;
+    color: var(--color-secundario);
+    width: 20px;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-link-btn {
+    display: flex;
+    align-items: center;
+    color: #8c1c1f;
+    font-family: var(--fuente-titulos);
+    font-weight: bold;
+    text-decoration: none;
+    transition: var(--transicion);
+}
+
+.footer-link-btn i {
+    font-size: 1.4rem;
+    margin-right: 10px;
+}
+
+.footer-link-btn:hover {
+    color: var(--color-blanco);
+    transform: translateX(5px);
+}
+
+.footer-bottom {
+    background: #111;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+    border-top: 1px solid #333;
+}
+
+/* =========================================
+   7. RESPONSIVE
+   ========================================= */
+@media (max-width: 1024px) {
+    .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .nav-toggle { display: block; color: #ffffff;}
+    nav {
+        display: none;
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        background: rgb(8, 0, 0);
+        padding: 20px;
+        box-shadow: var(--sombra);
+    }
+    nav.show { display: block; }
+    nav ul { flex-direction: column; gap: 15px; }
+    
+    .hero h1 { font-size: 2.2rem; }
+    .content-grid { grid-template-columns: 1fr; }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .footer-section h4 {
+        border-left: none;
+        border-bottom: 2px solid var(--color-secundario);
+        display: inline-block;
+        padding: 0 10px 5px;
+    }
+    .footer-link-btn { justify-content: center; }
+}
+
+/* =========================================
+   8. AVISO DE COOKIES
+   ========================================= */
+.cookie-banner {
+    position: fixed;
+    bottom: -100%; /* Escondido por defecto */
+    left: 0;
+    width: 100%;
+    background-color: var(--color-oscuro);
+    color: var(--color-blanco);
+    padding: 20px 0;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+    transition: bottom 0.5s ease-in-out;
+}
+
+.cookie-banner.show {
+    bottom: 0; /* Se desliza hacia arriba */
+}
+
+.cookie-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.cookie-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-cookie {
+    padding: 8px 20px;
+    border-radius: 5px;
+    border: none;
+    font-family: var(--fuente-titulos);
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transicion);
+}
+
+.btn-cookie.accept {
+    background-color: var(--color-secundario);
+    color: var(--color-blanco);
+}
+
+.btn-cookie.reject {
+    background-color: transparent;
+    color: #ccc;
+    border: 1px solid #555;
+}
+
+.btn-cookie:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* Ajuste móvil */
+@media (max-width: 768px) {
+    .cookie-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Asegúrate de que estas reglas existan en tu styles.css */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-primario);
+    text-decoration: none;
+    font-family: var(--fuente-titulos);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 10px; /* Reducimos el margen inferior */
+    transition: var(--transicion);
+}
+
+.btn-back:hover {
+    color: var(--color-secundario);
+    transform: translateX(-5px);
+}
+
+.btn-back:hover {
+    color: var(--color-secundario);
+    transform: translateX(-5px); /* Efecto de desplazamiento a la izquierda */
+}
+
+/* =========================================
+   10. BOTÓN FLOTANTE DE WHATSAPP (CON REBOTE)
+   ========================================= */
+.whatsapp-float {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 45px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    
+    /* Llamamos a la animación de rebote */
+    animation: rebote-whatsapp 2s infinite;
+}
+
+/* 🎬 Los fotogramas clave de la animación */
+@keyframes rebote-whatsapp {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0); /* Posición original */
+    }
+    40% {
+        transform: translateY(-15px); /* Salto alto */
+    }
+    60% {
+        transform: translateY(-7px); /* Salto bajito (efecto gravedad) */
+    }
+}
+
+.whatsapp-float:hover {
+    background-color: #128c7e;
+    color: #FFF;
+    /* Detenemos el rebote al pasar el mouse y hacemos un zoom elegante */
+    animation: none;
+    transform: scale(1.1);
+    transition: var(--transicion);
+}
+
+/* --- Responsivo para pantallas pequeñas --- */
+@media (max-width: 768px) {
+    .whatsapp-float {
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 38px;
+    }
+}
