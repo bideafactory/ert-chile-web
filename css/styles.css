@@ -428,7 +428,7 @@ footer {
 }
 
 .btn-cookie.accept {
-    background-color: var(--color-secundario);
+    background-color: var(--color-primario);
     color: var(--color-blanco);
 }
 
@@ -479,6 +479,9 @@ footer {
 /* =========================================
    10. BOTÓN FLOTANTE DE WHATSAPP (CON REBOTE)
    ========================================= */
+/* =========================================
+   10. BOTÓN FLOTANTE DE WHATSAPP (CON REBOTE)
+   ========================================= */
 .whatsapp-float {
     position: fixed;
     width: 70px;
@@ -491,7 +494,7 @@ footer {
     text-align: center;
     font-size: 45px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1500;
+    z-index: 9999; /* <-- AQUÍ ESTÁ LA MAGIA (antes era 1500) */
     display: flex;
     justify-content: center;
     align-items: center;
