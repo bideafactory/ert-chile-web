@@ -1,6 +1,10 @@
 /**
- * ER Trenchless - Galería de Hincados Destacados con Auto-Play
+ * ER Trenchless - Galería de Hincados (Versión Estable)
  */
+
+// 1. Define aquí cuántas fotos tienes en la carpeta images/hincados/
+const TOTAL_IMAGENES_HINCADOS = 5; 
+const folderPath = '../images/hincados/'; 
 
 let proyectosData = [];
 let currentIndex = 0;
@@ -12,94 +16,33 @@ const counter = document.getElementById('media-counter');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 
-// ⚠️ CAMBIO CLAVE: La ruta ahora busca la carpeta de imágenes desde la subcarpeta /servicios/
-const folderPath = '../images/hincados/'; 
-
 /**
- * Escáner Automático de Archivos Numerados
+ * Carga los datos de la galería de forma directa sin escaneo fallido
  */
-async function autoDiscoverMedia() {
-    try {
-        proyectosData = [];
-        const extensiones = ['png', 'jpg', 'jpeg', 'mp4', 'webm'];
-        let numeroActual = 1;
-        let seguirBuscando = true;
+function loadHincadosData() {
+    proyectosData = [];
+    
+    // Generamos las rutas basadas en el número total definido
+    for (let i = 1; i <= TOTAL_IMAGENES_HINCADOS; i++) {
+        proyectosData.push({
+            type: 'image',
+            url: `${folderPath}${i}.jpg`
+        });
+    }
 
-        mainViewer.innerHTML = '<div class="viewer-placeholder">Cargando galería...</div>';
-
-        while (seguirBuscando) {
-            let archivoEncontrado = false;
-
-            for (const ext of extensiones) {
-                const urlPrueba = `${folderPath}${numeroActual}.${ext}`;
-                
-                try {
-                    const respuesta = await fetch(urlPrueba, { method: 'HEAD' });
-
-                    if (respuesta.ok) {
-                        const type = (ext === 'mp4' || ext === 'webm') ? 'video' : 'image';
-                        proyectosData.push({ type: type, url: urlPrueba });
-                        archivoEncontrado = true;
-                        break; 
-                    }
-                } catch (error) {
-                    // Continúa probando
-                }
-            }
-
-            if (archivoEncontrado) {
-                numeroActual++; 
-            } else {
-                seguirBuscando = false; 
-            }
-        }
-
-        if (proyectosData.length > 0) {
-            renderThumbnails();
-            loadMedia(0);
-            startSlideshow();
-        } else {
-            mainViewer.innerHTML = '<div class="viewer-placeholder">No hay fotos de hincados aún.</div>';
-        }
-
-    } catch (error) {
-        console.error("Error crítico al armar la galería:", error);
-        mainViewer.innerHTML = '<div class="viewer-placeholder">Error al cargar la galería</div>';
+    if (proyectosData.length > 0) {
+        renderThumbnails();
+        loadMedia(0);
+        startSlideshow();
+    } else {
+        mainViewer.innerHTML = '<div class="viewer-placeholder">No hay fotos de hincados aún.</div>';
     }
 }
 
-/**
- * Funciones del Carrusel Automático
- */
-function startSlideshow() {
-    clearInterval(slideshowTimer);
-    
-    slideshowTimer = setInterval(() => {
-        let nextIndex = (currentIndex + 1) % proyectosData.length;
-        loadMedia(nextIndex);
-    }, 3000);
-}
-
-function resetSlideshow() {
-    startSlideshow();
-}
-
-/**
- * Cambia el recurso en el visualizador
- */
 function loadMedia(index) {
     currentIndex = index;
     const item = proyectosData[index];
-    mainViewer.innerHTML = '';
-
-    if (item.type === 'image') {
-        mainViewer.innerHTML = `<img src="${item.url}" style="width:100%; height:100%; object-fit:contain; border-radius: 8px;">`;
-    } else if (item.type === 'video') {
-        mainViewer.innerHTML = `
-            <video controls autoplay style="width:100%; height:100%; border-radius: 8px;">
-                <source src="${item.url}" type="video/mp4">
-            </video>`;
-    }
+    mainViewer.innerHTML = `<img src="${item.url}" style="width:100%; height:100%; object-fit:contain; border-radius: 8px;">`;
 
     counter.innerText = `${index + 1} / ${proyectosData.length}`;
     
@@ -121,28 +64,33 @@ function renderThumbnails() {
         thumb.innerHTML = `<img src="${item.url}" alt="thumb" style="width:100%; height:100%; object-fit:cover; border-radius: 4px;">`;
         thumb.onclick = () => {
             loadMedia(index);
-            resetSlideshow();
+            startSlideshow();
         };
         thumbTrack.appendChild(thumb);
     });
 }
 
-/**
- * LÓGICA DE BOTONES
- */
+function startSlideshow() {
+    clearInterval(slideshowTimer);
+    slideshowTimer = setInterval(() => {
+        let nextIndex = (currentIndex + 1) % proyectosData.length;
+        loadMedia(nextIndex);
+    }, 3000);
+}
+
+// Botones de Navegación
 nextBtn.addEventListener('click', () => {
     if (proyectosData.length === 0) return;
     let nextIndex = (currentIndex + 1) % proyectosData.length;
     loadMedia(nextIndex);
-    resetSlideshow();
+    startSlideshow();
 });
 
 prevBtn.addEventListener('click', () => {
     if (proyectosData.length === 0) return;
     let prevIndex = (currentIndex - 1 + proyectosData.length) % proyectosData.length;
     loadMedia(prevIndex);
-    resetSlideshow();
+    startSlideshow();
 });
 
-// Iniciamos todo cuando carga la página
-document.addEventListener('DOMContentLoaded', autoDiscoverMedia);
+document.addEventListener('DOMContentLoaded', loadHincadosData);
