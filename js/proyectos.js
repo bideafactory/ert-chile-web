@@ -42,7 +42,7 @@ function loadGalleryData() {
 function loadMedia(index) {
     currentIndex = index;
     const item = proyectosData[index];
-    mainViewer.innerHTML = `<img src="${item.url}" style="width:100%; height:100%; object-fit:contain; border-radius: 8px;">`;
+    mainViewer.innerHTML = `<img src="${item.url}" alt="Proyecto de tecnología sin zanja de ER Trenchless Chile ${index + 1}" decoding="async" style="width:100%; height:100%; object-fit:contain; border-radius: 8px;">`;
 
     counter.innerText = `${index + 1} / ${proyectosData.length}`;
     
@@ -61,7 +61,7 @@ function renderThumbnails() {
     proyectosData.forEach((item, index) => {
         const thumb = document.createElement('div');
         thumb.className = 'thumb-item';
-        thumb.innerHTML = `<img src="${item.url}" alt="thumb" style="width:100%; height:100%; object-fit:cover; border-radius: 4px;">`;
+        thumb.innerHTML = `<img src="${item.url}" alt="Miniatura del proyecto de tecnología sin zanja ${index + 1}" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; border-radius: 4px;">`;
         thumb.onclick = () => {
             loadMedia(index);
             startSlideshow();
